@@ -1,0 +1,43 @@
+import requests
+from bs4 import BeautifulSoup
+
+# List of URLs to scrape
+urls = ['https://www.drupal.org/project/address/issues/3428737']
+
+# Function to scrape data from each URL
+def scrape_urls(urls):
+    data = []
+    for url in urls:
+        try:
+            # Fetch HTML content
+            response = requests.get(url)
+            if response.status_code == 200:
+                # Parse HTML
+                soup = BeautifulSoup(response.text, 'html.parser')
+
+                # Find and extract desired elements
+                # For example, if you want to extract all <h1> tags:
+                
+                headings = soup.find_all("div", {"class": "field-name-field-issue-status"})
+                headings_text = [heading.text.strip() for heading in headings]
+
+                # Append extracted data to the list
+                data.append({
+                    'url': url,
+                    'headings': headings_text
+                    # Add more elements as needed
+                })
+            else:
+                print(f"Failed to fetch URL: {url}. Status code: {response.status_code}")
+        except Exception as e:
+            print(f"Error scraping URL {url}: {e}")
+
+    return data
+
+# Call the function and store the scraped data
+scraped_data = scrape_urls(urls)
+
+# Print the scraped data
+for data in scraped_data:
+    print(f"{data['url']}")
+    print(f"{data['headings']}")
