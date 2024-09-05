@@ -2,5 +2,4 @@
     "name": "python/scrapper",
     "description": "Scrapping drupal module releases and issues data.",
     "license": "GPL-2.0-or-later",
-    "type": "drupal-module"
  }
